@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Booking Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">
+    <div class="booking-steps-indicator container">
+        <div class="row steps">
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">1</a>
+                <div class="steps-info text-center">Lock</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">2</a>
+                <div class="steps-info text-center">Date</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">3</a>
+                <div class="steps-info text-center">Site</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">4</a>
+                <div class="steps-info text-center">Book</div>
+            </div>
+            <div class="steps-step active percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+				<img src="{% static 'img/van.png' %}" class="van steps-info text-center">
+				<span class="steps-info steps-cost" >£{{ cost|floatformat:2 }}</span>
+                <!--<a href="#" class="steps-dot">5</a>-->
+                <div class="steps-info text-center">Confirmation</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="block background-secondary fullwidth pt60 pb60">
+        <div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-md-8 col-md-offset-2">
+					<h1>Thank you for your order.  Your job is confirmed and you will receive an email with the following information shortly.</h1>
+					<table class="table borderless">
+						<tr><td>When</td><td>{{ slot|title }} : {{ date|date:'M d' }}</td></tr>
+						<tr><td>Where</td><td>{{ address.0 }} {{address.1 }}, {{ address.2 }}, {{ address.3 }}</td></tr>
+						<tr><td>Locks</td>
+						<td>{% for item in job.item.all %}{{ item.name }}{% if not forloop.last%},{%endif %} {% endfor %}</td></tr>
+						<tr><td>Total Cost</td><td>£{{job.cost|floatformat:2}}</td></tr>
+						<tr><td>Job Id</td><td>{{job.id}}</td></tr>
+						<tr><td>Contractor</td><td>{{contractor.user.username}}</td></tr>
+						<tr><td>Phone Number</td><td></td></tr>
+					</table>
+					<a href="{% url 'home' %}" class="btn btn-primary">Return to Home Page</a> 
+				</div>
+			</div>
+		</div>
+    </div>
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+
+{% endblock %}

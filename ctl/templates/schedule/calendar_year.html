@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load scheduletags i18n static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.css" %}" type="text/css" media="screen">
+  <script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
+  <script type="text/javascript" src="{% static "jquery-ui/jquery-ui.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "bootstrap/dist/js/bootstrap.js" %}"></script>
+  <script type="text/javascript" src="{% static "schedule.js" %}"></script>
+  <link rel="stylesheet" href="{% static "schedule.css" %}" type="text/css" media="screen">
+  <link rel="stylesheet" href="{% static "jquery-ui/themes/base/all.css" %}" type="text/css" media="screen">
+{% endblock %}
+
+{% block content %}
+<div class="main blue-keys">
+  <div class="container background-secondary">
+<div class="tablewrapper">
+    <div class="calendarname">{{ calendar.name }}</div>
+    {% prevnext "year_calendar" calendar period "Y" %}
+    <div class="content">
+      {% for month in period.get_months %}
+        <div class="col-md-3">
+          <div class="row row-centered">
+            <button class="btn btn-custom active" href="{% url "month_calendar" calendar.slug %}{% querystring_for_date month.start 2 %}">{{month.name}}</button>
+          </div>
+          <div>
+            {% month_table calendar month "small" %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+<div class="navigation">
+  <a href="{% url "month_calendar" calendar.slug %}">
+    {% trans "Current Month Calendar" %}
+  </a>
+  <a href="{% url "year_calendar" calendar.slug %}">
+    {% trans "Current Year Calendar" %}
+  </a>
+</div></div></div>
+{% endblock %}

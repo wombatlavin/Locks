@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row center">
+        {% if error %}
+            <h1>Something went wrong</h1>
+            <p>We've been unable to connect to your Stripe account.</p>
+            <p>We have received the following error:  {{ error_description }}</p>
+            <p>Please try again and if it still doesn't work please contract Stripe.</p>
+        {% else %}
+            <h1>Success</h1>
+            <p>Your account is set up and you can start receiving payments for work through ChangeTheLocks</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ctl %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Booking Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">
+    <div class="booking-steps-indicator container">
+        <div class="row steps">
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">1</a>
+                <div class="steps-info text-center">Lock</div>
+            </div>
+            <div class="steps-step active percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+				<img src="{% static 'img/van.png' %}" class="van steps-info text-center">
+				<span class="steps-info steps-cost" >£{{ cost|floatformat:2 }}</span>
+                <!--<a href="#" class="steps-dot">2</a>-->
+                <div class="steps-info text-center">Date</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">3</a>
+                <div class="steps-info text-center">Site</div>
+            </div>
+			<div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">4</a>
+                <div class="steps-info text-center">Book</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">5</a>
+                <div class="steps-info text-center">Confirmation</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="booking-container background-gray-light fullwidth pt60 pb60 yellow-keys">
+        <div class="container">
+			<div class="row">
+				<div class="background-primary col-xs-12 col-md-8 col-md-offset-2">
+				<h1><span class="background-primary">Choose Your Time</span></h1>
+				</div>
+				<div class="col-xs-12 col-md-8 col-md-offset-2">
+					{% if messages %}
+						{% for message in messages %}
+						<div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+						{% endfor %}
+					{% endif %}
+					<ul class="nav nav-tabs yellow-keys">
+						<li class='active'><a href='#menu1' data-toggle='tab'>{{ first_date|date:'M d' }}</a></li>
+						<li ><a href="#menu2" data-toggle="tab">{{ first_date|change_date:1|date:'M d' }}</a></li>
+						<li ><a href="#menu3" data-toggle="tab">More Dates</a></li>
+					</ul>
+					<div class="col-xs-12">
+						<div class="tab-content">
+							<div id='menu1' class="tab-pane fade in active">
+								<table class="table borderless">
+									<tr><td><h4>Morning (08:00-12:00)</h4></td><td>{% if availability.0 == 'Yes' %}<a href="{% url 'booking3' first_date|date:'Y-m-d' 'morning'  %}" class="btn btn-primary date-btn">Select</a>{% else %} We're Fully Booked!{% endif %}</td></tr>
+									<tr><td><h4>Afternoon (12:00-16:00)</h4></td><td>{% if availability.1 == 'Yes' %}<a href="{% url 'booking3' first_date|date:'Y-m-d' 'afternoon' %}" class="btn btn-primary date-btn">Select</a>{% else %} We're Fully Booked!{% endif %}</td></tr>
+									<tr><td><h4>Evening (16:00-20:00)</h4></td><td>{% if availability.2 == 'Yes' %}<a href="{% url 'booking3' first_date|date:'Y-m-d' 'evening' %}" class="btn btn-primary date-btn">Select</a>{% else %} We're Fully Booked!{% endif %}</td></tr>
+								</table>
+							</div>
+							<div id='menu2' class="tab-pane fade">
+								<table class="table borderless">
+									<tr><td><h4>Morning (08:00-12:00)</h4></td><td>{% if availability.3 == 'Yes' %}<a href="{% url 'booking3' first_date|change_date:1|date:'Y-m-d' 'morning' %}" class="btn btn-primary date-btn">Select</a>{% else %} We're Fully Booked!{% endif %}</td></tr>
+									<tr><td><h4>Afternoon (12:00-16:00)</h4></td><td>{% if availability.4 == 'Yes' %}<a href="{% url 'booking3' first_date|change_date:1|date:'Y-m-d' 'afternoon' %}" class="btn btn-primary date-btn">Select</a>{% else %} We're Fully Booked!{% endif %}</td></tr>
+									<tr><td><h4>Evening (16:00-20:00)</h4></td><td>{% if availability.5 == 'Yes' %}<a href="{% url 'booking3' first_date|change_date:1|date:'Y-m-d' 'evening' %}" class="btn btn-primary date-btn">Select</a>{% else %} We're Fully Booked!{% endif %}</td></tr>
+								</table>
+							</div>
+							<div id='menu3' class="tab-pane fade">
+								<table class="table borderless">
+									<tr><td><h4>{{first_date|change_date:2|date:'M d'}}</h4></td><td><a href="{% url 'booking2d' first_date|change_date:2|date:'Y-m-d' %}" class="btn btn-primary date-btn">Select</a></td></tr>
+									<tr><td><h4>{{first_date|change_date:3|date:'M d'}}</h4></td><td><a href="{% url 'booking2d' first_date|change_date:3|date:'Y-m-d'%}" class="btn btn-primary date-btn">Select</a></td></tr>
+									<tr><td><h4>{{first_date|change_date:4|date:'M d'}}</h4></td><td><a href="{% url 'booking2d' first_date|change_date:4|date:'Y-m-d'%}" class="btn btn-primary date-btn">Select</a></td></tr>
+									<tr><td><h4>{{first_date|change_date:5|date:'M d'}}</h4></td><td><a href="{% url 'booking2d' first_date|change_date:5|date:'Y-m-d'%}" class="btn btn-primary date-btn">Select</a></td></tr>
+									<tr><td><h4>{{first_date|change_date:6|date:'M d'}}</h4></td><td><a href="{% url 'booking2d' first_date|change_date:6|date:'Y-m-d'%}" class="btn btn-primary date-btn">Select</a></td></tr>
+								</table>
+							</div>
+						</div><!-- /.tab-content -->
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.css" %}" type="text/css" media="screen">
+  <script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
+  <script type="text/javascript" src="{% static "jquery-ui/jquery-ui.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "bootstrap/dist/js/bootstrap.js" %}"></script>
+  <script type="text/javascript" src="{% static "schedule.js" %}"></script>
+  <link rel="stylesheet" href="{% static "schedule.css" %}" type="text/css" media="screen">
+  <link rel="stylesheet" href="{% static "jquery-ui/themes/base/all.css" %}" type="text/css" media="screen">
+{% endblock %}
+
+{% block content %}
+<div class="main blue-keys">
+  <div class="container background-secondary">
+<h1>{% trans "Delete" %}</h1>
+{% trans "Are you sure that you really want to delete it?" %}
+
+<form action="" method="post">{% csrf_token %}
+    <input type="submit" value="Confirm" class="btn btn-primary">
+    <!--<input type="submit" name="cancel" value="Cancel" class="btn btn-primary">-->
+</form>
+</div></div>
+{% endblock %}

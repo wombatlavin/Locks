@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Booking Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'owlcarousel/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'owlcarousel/owl.theme.default.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">
+    <div class="booking-steps-indicator container">
+        <div class="row steps">
+            <div class="steps-step active percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+				<img src="{% static 'img/van.png' %}" class="van steps-info text-center">
+				<span class="steps-info steps-cost" >£{{ cost|floatformat:2 }}</span>
+				<!--<a href="#" class="steps-dot">1</a>-->
+                <div class="steps-info text-center">Lock</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">2</a>
+                <div class="steps-info text-center">Date</div>
+            </div>
+			<div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">3</a>
+                <div class="steps-info text-center">Site</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">4</a>
+                <div class="steps-info text-center">Book</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">5</a>
+                <div class="steps-info text-center">Confirmation</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="booking-container background-gray-light fullwidth pt60 pb60 yellow-keys">
+        
+        <div class="container">
+			<div class="row">
+				<div class="col-xs-12 background-primary">
+				<h1><span class="background-primary">Choose Your Locks</span></h1>
+				</div>
+				<div class="col-xs-12 background-secondary" style="padding-left:0px; padding-right:0px;">
+					<ul class="nav nav-tabs yellow-keys">
+						{% for c in categories %}
+							<li class='{% if forloop.first %} active{% endif%}'><a href='#menu{{c.id}}' data-toggle='tab'>{{ c.name }}{% if c.image %}<br><img src="{{ c.image.url}}" width="100px">{% endif  %}</a></li>
+						{% endfor %}
+						<li class=''><a href='#menu99' data-toggle='tab'>Not Sure, Send a Photo<br><i class="fa fa-question fa-4x" aria-hidden="true"></i></a></li>
+						
+					</ul>
+					<div class="tab-content background-secondary" style="padding-left:0px; padding-right:0px;">
+						{% for c in categories %}
+						<div id='menu{{c.id}}' class="tab-pane fade {% if forloop.first %}in {% endif %}active background-secondary">
+								{% for i in items %}
+									{% if i.category.id == c.id %}
+									<div class="col-xs-12 col-sm-6 col-md-4 background-secondary" >
+										<div class="service">
+											<h3 class="heading">{{i.name}} - £{{ i.cost|floatformat:2 }}</h3>
+											<div class="icon-holder"><img  src="{{ i.image.url }}" class="icon"></div>
+											<p class="description">{{ i.description|safe }} </p>
+											<span class="service-btn">
+												<a href="javascript:minus({{i.id}});" class="btn btn-primary btn-sm"><i class="fa fa-minus" aria-hidden="true"></i></a>
+												<span id="item{{i.id}}" class="primary-text">0</span>
+												<a href="javascript:plus({{i.id}});" class="btn btn-primary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></a>					
+											</span>
+										</div>
+									</div>
+									{% endif %}
+								{% endfor %}
+						</div>
+						{% endfor %}
+						<div id="menu99" class="tab-pane fade active background-secondary">
+							<a href="{% url 'send-photo' %}"><img src="{% static 'img/camera-icon.png' %}"> </a>
+						</div>
+					</div>
+				</div>
+				<form method="get" action="{% url 'booking2' %}">
+					<div class="col-xs-12 right">
+						<button type="submit" class="btn btn-primary">Continue</button>		
+					</div>
+					{% for i in items %}
+						<input type="number" name="item_{{i.id}}" id="item_{{i.id}}" value="0" hidden>
+					{% endfor %}
+				</form>
+			</div>
+		</div>
+    </div>
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+<script src="{% static 'owlcarousel/owl.carousel.min.js' %}"></script>
+
+<script>
+
+	$(document).ready(function(){
+		$(".owl-carousel").owlCarousel();
+	});
+</script>
+<script>
+$(document).ready(function(){
+	{% for c in categories %}activaTab('menu{{c.id}}');{% endfor %}
+    activaTab('menu{{categories.0.id}}');
+});
+
+function activaTab(tab){
+    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+}
+</script>
+<script>
+function minus(id) {
+	var x = parseInt($('#item'+id.toString()).html());
+	if (x > 0) {
+		Display = document.querySelector('#item'+id.toString());
+		Display.textContent = x-1;
+		$('#item_'+id.toString()).val(x-1);
+	}
+}
+
+function plus(id) {
+	var x = parseInt($('#item'+id.toString()).html());
+	Display = document.querySelector('#item'+id.toString());
+	Display.textContent = x+1;
+	$("#item_"+id.toString()).val(x+1);
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+        <div id="header">
+            <!-- class="sticky" for sticky menu -->
+            <!-- Top Bar -->
+            <header id="topBar">
+                <div class="container">
+                    <div class="pull-right fsize13 margin-top10 hide_mobile">
+                        <div class="marginbar" <!-- mail , phone -->
+                            <p> <a href="../our-guarentee.php"> Why does my quote increase?</a> <a href="../post-a-project.php" class="btn btn-primary btn-lg"> New Quote </a> </p>
+                        </div>
+                    </div>
+                    <!-- Logo -->
+                    <a class="logo" href="/on-time-video.php">
+                        <img src="http://cityhousemedia.com/assets/images/chm-logo.png" height="50" alt="" />
+                    </a>
+            </header>
+            <!-- /Top Bar -->
+            <!-- Top Nav -->
+
+            <header id="topNav">
+                <div class="container">
+                    <!-- Mobile Menu Button -->
+                    <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                <!-- /.container -->
+            </header>
+            <!-- /Top Nav -->
+            </div>
+
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-offset-1  col-md-5" align="left">
+                            <!-- /PROJECT TITLE-->
+                            <h1 class="product-view-title"><b>{{q.project}}</b><br><span>{{q.company}}</span> <em>{{q.first_name}} {{q.last_name}}</em></h1>
+                        </div>
+                        <div class="col-md-5" align="right">
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-offset-3 col-sm-9 ">
+                                    <h1>Payment Declined</h1>
+                                    <p>We're sorry but your payment has been declined with error</p>
+                                    <p>{{e}}</p>
+                                    <p>Please return to the home entry screen and try again.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-offset-1 col-md-6" align="left">
+                                <!-- /PROJECT TITLE-->
+                                <h2 class="product-view-title"><span>Quote Breakdown</span></h2>
+                                <div align="left" class="box noborder" align="left">
+                                    <!-- add .transparent for no background color -->
+                                    <!-- /PROJECT DESCRIPTION -->
+                                    <h5><b>Project Description</b></h5>
+                                    <p>{{q.description|safe}}</p>
+                                    <div class="row">
+                                        <div class="col-md-12" align="left">
+                                            <!-- /VIDEO USE -->
+                                            <h5><b>Deliverables</b></h5>
+                                            <p>
+                                                {% for d in q.deliverables.all %}
+                                                    {{d}}<br>
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" align="center">
+                                <!-- /DETAILS -->
+                                <div class="featured-box noborder">
+                                    <!-- /MORE DETAILS -->
+                                    <div class="row">
+                                        <i class="fa fa-info"></i>
+                                        <div class="col-md-12" align="left">
+                                            <div class="col-md-6">
+                                                <h5><b>Item</b></h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5><b>Rate</b></h5>
+                                            </div>
+                                            {% for b in q.costs.all %}
+                                                <div class="col-md-6">
+                                                    <p>{{b.name}}</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>£{{b.cost}}</p>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+{% endblock %}

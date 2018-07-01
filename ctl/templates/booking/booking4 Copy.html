@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ctl %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Booking Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">
+    <div class="booking-steps-indicator container">
+        <div class="row steps">
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">1</a>
+                <div class="steps-info text-center">Lock</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">2</a>
+                <div class="steps-info text-center">Date</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">3</a>
+                <div class="steps-info text-center">Site</div>
+            </div>
+            <div class="steps-step active percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+				<img src="{% static 'img/van.png' %}" class="van steps-info text-center">
+				<span class="steps-info steps-cost" >£{{ cost|floatformat:2 }}</span>
+                <!--<a href="#" class="steps-dot">4</a>-->
+                <div class="steps-info text-center">Book</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">5</a>
+                <div class="steps-info text-center">Confirmation</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="booking-container background-gray-light fullwidth pt60 pb60 yellow-keys">
+        <h1>Book</h1>
+        <div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-md-10 col-md-offset-1">
+					<ul class="nav nav-tabs yellow-keys">
+						<li class='active'><a href='#menu1' data-toggle='tab'>When</a></li>
+						<li ><a href="#menu2" data-toggle="tab">Where</a></li>
+						<!--<li ><a href="#menu3" data-toggle="tab">Job</a></li>-->
+						<li ><a href='#menu4' data-toggle='tab'>Additional Info</a></li>
+						<li ><a href="#menu5" data-toggle="tab">Costs</a></li>
+						
+					</ul>
+					<div class="tab-content">
+						<div id='menu1' class="tab-pane fade in active">
+							<h1>{{ slot }}</h1>
+							<h1>{{ date|date:'M d' }}</h1>
+						</div>
+						<div id='menu2' class="tab-pane fade">
+							<h1>{{ address.0 }} {{ address.1 }}</h1>
+							<h1>{{ address.2 }}</h1>
+							<h1>{{ address.3 }}</h1>
+						</div>
+						<!--
+						<div id='menu3' class="tab-pane fade">
+							{% for item in items %}
+							<div class="service">
+                                <h1 class="heading">{{ item.name }}</h1>
+                                <div class="icon-holder"><img  src="{{ item.image.url }}" class="icon"></div>
+                                <p class="description">{{ item.description }}</p>
+                            </div>
+							{% endfor %}
+						</div>
+						-->
+						<div id='menu4' class='tab-pade fade'>
+							<p>{{ request.session.additional_info }}</p>
+						</div>
+						<div id='menu5' class="tab-pane fade">
+							<table class="table borderless">
+								{% for item in request.session.qwerty %}
+								   <tr><td><h2>{{ item.2 }} * {{ item.1 }}</h2></td><td><h2>£{{ item.3|floatformat:2 }}</h2></td></tr>
+								{% endfor %}
+								<tr><td><h2>Total Cost</h2></td><td><h2> £{{ request.session.cost|floatformat:2 }}</h2></td></tr>
+								<tr><td><h1>Deposit to book</h1></td><td><h1>£{{ request.session.deposit|floatformat:2 }}</h1></td></tr>
+							</table>
+							{% if user.is_authenticated %}
+								<input type="checkbox" id="id_tandc" class="form-control left"><label for="id_tandc" class="left">Check box to accept the terms and conditions. </label><br>
+								<br><br><br>
+								<form action="{% url 'booking5' date|date:'Y-m-d' slot contractor.id %}" method="POST" onsubmit="if(document.getElementById('id_tandc').checked) { return true; } else {return false; }">
+									<button type="Submit" id="customButton" class="btn btn-primary service-btn">Pay £{{ request.session.deposit|floatformat:2 }} Deposit & Book</button>
+									<script src="https://checkout.stripe.com/checkout.js"></script>
+									<script>
+									var handler = StripeCheckout.configure({
+										email: '{{user.email}}',
+										key: '{{stripe_key}}',
+										image: "{% static 'img/logo.png' %}",
+										locale: 'auto',
+										token: function(token, args){
+											var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+											$('form').append($input).submit();
+										}
+									});
+									
+									document.getElementById('customButton').addEventListener('click', function(e) {
+									  // Open Checkout with further options:
+									  if(document.getElementById('id_tandc').checked) {
+										
+										} else {
+											alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy');
+											return ;
+										}
+									  handler.open({
+											name: 'Change The Locks',
+											description: 'Change The Locks',
+											zipCode: false,
+											currency: 'gbp',
+											amount: "{{request.session.deposit|pence}}"
+									  });
+									  e.preventDefault();
+									});
+									
+									// Close Checkout on page navigation:
+									window.addEventListener('popstate', function() {
+										handler.close();
+									});
+									</script>
+								</form>
+							{% else %}
+								<a href="/accounts/login/" class="btn btn-primary service-btn">Book</a> 
+							{% endif %}
+						</div>
+					</div><!-- /.tab-content -->
+				</div>
+			</div>
+		</div>
+    </div>
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+
+{% endblock %}

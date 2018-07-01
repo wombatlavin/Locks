@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load scheduletags i18n static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.css" %}" type="text/css" media="screen">
+  <script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
+  <script type="text/javascript" src="{% static "jquery-ui/jquery-ui.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "bootstrap/dist/js/bootstrap.js" %}"></script>
+  <script type="text/javascript" src="{% static "schedule.js" %}"></script>
+  <link rel="stylesheet" href="{% static "schedule.css" %}" type="text/css" media="screen">
+  <link rel="stylesheet" href="{% static "jquery-ui/themes/base/all.css" %}" type="text/css" media="screen">
+{% endblock %}
+
+
+{% block content %}
+<div class="main blue-keys">
+  <div class="container background-secondary">
+{% include "schedule/_dialogs.html" %}
+
+<div class="row row-centered">
+  <div class="calendarname">{{ calendar.name }} </div>
+  {% prevnext "month_calendar" calendar period "F Y"%}
+  <div class="now row-centered">
+    <a href="{% url "month_calendar" calendar.slug %}">
+      {% trans "This month" %}
+    </a>
+  </div>
+  <div class="center span7">
+    {% month_table calendar period "regular" %}
+  </div>
+</div>
+<div class="row row-centered">
+  <a href="{% url "tri_month_calendar" calendar.slug %}{% querystring_for_date period.start 2 %}">
+    {% trans "Three Month Calendar" %}
+  </a>
+  <a href="{% url "year_calendar" calendar.slug %}{% querystring_for_date period.start 1 %}">
+    {% trans "Full Year Calendar" %}
+  </a>
+</div>
+</div>
+</div>
+{% endblock %}

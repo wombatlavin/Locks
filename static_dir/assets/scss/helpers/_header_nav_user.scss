@@ -1,0 +1,159 @@
+.header-nav-user {
+    float: right;
+    margin: 20px 25px 0px 0px;
+
+
+    @media (min-width: $screen-sm-min) and (max-width: $screen-md-max) {
+        margin: 20px 25px 0px 0px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+        margin: 15px 25px 0px 0px;
+    }
+
+    button {
+        background-color: transparent !important;
+        padding: 0px;
+        position: relative;
+
+        &:after {
+            display: none;
+        }
+
+        &:active, &:focus, &:hover {
+            background-color: transparent !important;
+            box-shadow: none;
+            outline: 0px !important;
+        }
+
+        .user-image {
+            display: inline-block;
+            position: relative;
+        }
+
+        .notification {
+            background-color: rgba($color-red, .8);
+            border-radius: 50%;
+            height: 7px;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            width: 7px;
+        }
+    }
+
+    img {
+        border: 2px solid $color-gray;
+        border-radius: 50%;
+        height: 38px;
+        margin: 0px 10px 0px 0px;
+        padding: 2px;
+        width: 38px;
+    }
+
+    i {
+        font-size: 10px;
+        margin: 0px 0px 0px 10px;
+        vertical-align: 1px;
+    }
+
+    .dropdown-menu {
+        border: 1px solid $color-gray;
+        border-radius: 0px;
+        box-shadow: none;
+        margin: 10px 0px 0px 0px;
+        padding: 0px;
+        width: 100%;
+
+        li {
+            border-bottom: 1px solid $color-gray;
+
+            a {
+                color: $color-gray-darker;
+                display: block;
+                font-size: 11px;
+                padding: 9px 20px;
+                text-transform: uppercase;
+                transition: all .15s linear;
+                white-space: nowrap;
+
+                &:hover {
+                    background-color: $color-gray-lighter;
+                    color: $color-secondary;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+.header-nav-user-name {
+    @media (max-width: $screen-md-max) {
+        display: none;
+    }
+}
+
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    zoom:1; /* hasLayout ie7 trigger */
+    
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+    vertical-align: middle;
+}
+.nav-tabs{
+    display: flex;
+}
+.nav-tabs li {
+    display: flex;
+    flex: 1;
+}
+
+.nav-tabs li  a {
+    flex: 1;
+}
+
+.nav-tabs{  
+     background-color: $color-secondary;
+    
+}
+
+.tab-content{
+    background-color:$color-secondary;
+    color:#fff;
+    padding:5px
+}
+
+
+.nav-tabs > li > a{
+    border: medium none;
+    background-color: $color-primary;
+    padding: 15px 35px;
+    font-size: 24px;
+    color: $color-secondary;    
+}
+
+@media (max-width: 780px) {
+    .nav-tabs > li > a {
+        padding: 5px 10px;
+        font-size: 16px;
+    }
+}
+
+.nav-tabs > li > a:hover{
+    background-color: $color-primary-dark;
+    border: medium none;
+    border-radius: 0;
+    color:#fff;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    background-color:$color-secondary;
+    color:$color-primary;
+}
+
+

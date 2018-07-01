@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ctl %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Booking Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">
+    <div class="booking-steps-indicator container">
+        <div class="row steps">
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">1</a>
+                <div class="steps-info text-center">Lock</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">2</a>
+                <div class="steps-info text-center">Date</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">3</a>
+                <div class="steps-info text-center">Site</div>
+            </div>
+            <div class="steps-step active percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+				<img src="{% static 'img/van.png' %}" class="van steps-info text-center">
+				<span class="steps-info steps-cost" >£{{ cost|floatformat:2 }}</span>
+                <!--<a href="#" class="steps-dot">4</a>-->
+                <div class="steps-info text-center">Book</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">5</a>
+                <div class="steps-info text-center">Confirmation</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="booking-container background-gray-light fullwidth pt60 pb60 yellow-keys">
+		<div class="container">
+			<div class="row">
+				<div class="background-primary col-xs-12 col-md-10 col-md-offset-1">
+					<h1><span class="background-primary">Book</span></h1>
+				</div>
+				<div class="col-xs-12 col-md-10 col-md-offset-1">
+					<table class="table background-secondary">
+						<tr>
+							<th><h1>When</h1></th>
+							<td><h1>{{ slot }}, {{ date|date:'M d' }}</h1></td>
+						</tr>
+						<tr>
+							<th><h1>Where</h1></th>
+							<td><h1>{{ address.0 }} {{ address.1 }}, {{ address.2 }}, {{ address.3 }}</h1></td>
+						</tr>
+						<tr>
+							<th><h1>Additional Info</h1></th>
+							<td><p>{{ request.session.additional_info }}</p></td>
+						</tr>
+						<tr>
+							<th><h1>Costs</h1></th>
+							<td>
+									{% for item in request.session.qwerty %}
+									   <div class="col-xs-6"><h2>{{ item.2 }} * {{ item.1 }}</h2></div><div class="col-xs-6"><h2>£{{ item.3|floatformat:2 }}</h2></div>
+									{% endfor %}
+									<div class="col-xs-6"><h2>Total Cost</h2></div><div class="col-xs-6"><h2> £{{ request.session.cost|floatformat:2 }}</h2></div>
+									<div class="col-xs-6"><h1>Deposit to book</h1></div><div class="col-xs-6"><h1>£{{ request.session.deposit|floatformat:2 }}</h1></div>
+								
+								{% if user.is_authenticated %}
+									<div class="col-xs-12"><input type="checkbox" id="id_tandc" class="form-control left"><label for="id_tandc" class="left">Check box to accept the terms and conditions. </label></div>
+
+									<form action="{% url 'booking5' date|date:'Y-m-d' slot contractor.id %}" method="POST" onsubmit="if(document.getElementById('id_tandc').checked) { return true; } else {return false; }">
+										<button type="Submit" id="customButton" class="btn btn-primary service-btn">Pay £{{ request.session.deposit|floatformat:2 }} Deposit & Book</button>
+										<script src="https://checkout.stripe.com/checkout.js"></script>
+										<script>
+										var handler = StripeCheckout.configure({
+											email: '{{user.email}}',
+											key: '{{stripe_key}}',
+											image: "{% static 'img/logo.png' %}",
+											locale: 'auto',
+											token: function(token, args){
+												var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+												$('form').append($input).submit();
+											}
+										});
+										
+										document.getElementById('customButton').addEventListener('click', function(e) {
+										  // Open Checkout with further options:
+										  if(document.getElementById('id_tandc').checked) {
+											
+											} else {
+												alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy');
+												return ;
+											}
+										  handler.open({
+												name: 'Change The Locks',
+												description: 'Change The Locks',
+												zipCode: false,
+												currency: 'gbp',
+												amount: "{{request.session.deposit|pence}}"
+										  });
+										  e.preventDefault();
+										});
+										
+										// Close Checkout on page navigation:
+										window.addEventListener('popstate', function() {
+											handler.close();
+										});
+										</script>
+									</form>
+								{% else %}
+									<a href="/accounts/register/" class="btn btn-primary service-btn">Book</a> 
+								{% endif %}	
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+
+{% endblock %}

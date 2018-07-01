@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - My Jobs{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}{% endblock %}
+
+{% block content %}
+
+<div class="main blue-keys">
+
+    <div class="pt60 vh80">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-8 col-md-offset-2 background-secondary" style="text-align:center">
+                    <h1>Job Detail</h1>
+                     {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <table class="table table-condenced">
+                        <tr><td>Job Id</td><td>{{job.id}}</td></tr>
+                        <tr><td>Work</td><td>{% for item in work %}{{ item.item.name }}: {{item.count}}{% if not forloop.last %},{% endif %} {% endfor %}<br><a href="{% url 'change-order' job.id %}">Change Order</a></td></tr>
+                        <tr><td>Scheduled Start</td><td>{{job.event.start|date:'d/m/Y'}} {{job.event.start|time:'H:i'}}</td></tr>
+                        <tr><td>Scheduled End</td><td>{{job.event.end|date:'d/m/Y'}} {{job.event.end|time:'H:i'}}</td></tr>
+                        <tr><td>Address</td><td>{{job.housenumber}} {{job.street}}, {{job.city}}, {{job.post_code}}</td></tr>
+                        <tr>
+                            <td>PreWork Photos</td>
+                            <td>
+                                {% for p in preimage %}<img width="50px" src="{{p.image.url}}">{% endfor %}
+                                <a href="{% url 'job-photo' job.id %}">Take Photo</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PostWork Photos</td>
+                            <td>
+                                {% for p in postimage %}<img width="50px" src="{{p.image.url}}">{% endfor %}
+                                <a href="{% url 'job-photo' job.id %}">Take Photo</a>
+                            </td>
+                        </tr>
+                        <tr><td>Customer Signature</td><td>{% if job.signature %}<img alt="Embedded Image" src="{{job.signature}}" width="200px">{% else %}<a href="{% url 'customer-signature' job.id %}">Get Signature</a>{% endif %}</td></tr>
+                    </table>                 
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+{% endblock %}

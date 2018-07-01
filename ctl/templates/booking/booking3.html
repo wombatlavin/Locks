@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ctl %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Booking Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">
+    <div class="booking-steps-indicator container">
+        <div class="row steps">
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">1</a>
+                <div class="steps-info text-center">Lock</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">2</a>
+                <div class="steps-info text-center">Date</div>
+            </div>
+            <div class="steps-step active percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+				<img src="{% static 'img/van.png' %}" class="van steps-info text-center">
+				<span class="steps-info steps-cost" >£{{ cost|floatformat:2 }}</span>
+                <!--<a href="#" class="steps-dot">3</a>-->
+                <div class="steps-info text-center">Site</div>
+            </div>
+			<div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">4</a>
+                <div class="steps-info text-center">Book</div>
+            </div>
+            <div class="steps-step disabled percent20">
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="steps-dot">5</a>
+                <div class="steps-info text-center">Confirmation</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="booking-container background-gray-light fullwidth pt60 pb60 yellow-keys">
+        <div class="container">
+			<div class="row">
+				<div class="background-primary col-xs-12 col-md-6 col-md-offset-3">
+					<h1><span class="background-primary">Where</span></h1>
+				</div>
+				<div class="col-xs-12 col-md-6 col-md-offset-3">
+					<ul class="nav nav-tabs yellow-keys">
+						<li class='active'><a href='#menu1' data-toggle='tab'>Address</a></li>
+					</ul>
+					<div class="col-xs-12 ">
+						<div class="tab-content">
+							<div id='menu1' class="tab-pane fade in active">
+								<form method="get" action="{% url 'booking4' date|date:'Y-m-d' slot contractor.id %}"
+								<table class="table borderless">
+									{{ form.as_table }}
+								</table>
+								<p>This is the address at which the locks are to be changed</p>
+								<button type="submit" class="btn btn-primary service-btn">Enter Address</a>
+							</div>
+						</div><!-- /.tab-content -->
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+
+{% endblock %}

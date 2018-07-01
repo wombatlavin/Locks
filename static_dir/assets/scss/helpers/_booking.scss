@@ -1,0 +1,321 @@
+.booking-steps-indicator {
+    padding-top: 15px
+}
+
+@media (min-width: 480px) {
+    .booking-steps-indicator {
+        padding-top:60px
+    }
+    
+}
+
+@media only screen and (min-width: 1000px) {
+    .booking-steps-indicator {
+        padding-top: 0px
+    }
+}
+
+.booking-steps-indicator .steps {
+    margin-top: 40px;
+    border-bottom: solid 1px #e0e0e0;
+    padding: 0 0 10px 0
+}
+
+.booking-steps-indicator .steps .steps-step {
+    padding: 0;
+    position: relative;
+    float: left
+}
+
+.percent25 {
+    width: 25%
+}
+
+.percent20 {
+    width: 20%
+}
+
+.booking-steps-indicator .steps .steps-step .steps-info {
+    color: $color-gray-dark;
+    font-size: 8px;
+    text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+    .booking-steps-indicator .steps .steps-step .steps-info {
+        font-size:11px
+    }
+    .van {
+        width: 100px
+    }
+}
+
+@media (min-width: 992px) {
+    .booking-steps-indicator .steps .steps-step .steps-info {
+        font-size:14px
+    }
+    .van {
+        width: 150px
+    }
+}
+
+.booking-steps-indicator .steps .steps-step .steps-dot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: transparent;
+    color: $color-gray-dark;
+    text-align: center;
+    top: 25px;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+    z-index: 1;
+    font-size: 14px;
+    padding-top: 6px
+}
+
+.booking-steps-indicator .steps .steps-step .steps-dot:before {
+    content: ' ';
+    width: 27px;
+    height: 27px;
+    background: $color-gray-light;
+    border-radius: 50px;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    z-index: -1
+}
+
+.booking-steps-indicator .steps .steps-step .progress {
+    background-color: $color-gray-dark;
+    position: relative;
+    border-radius: 0px;
+    height: 8px;
+    height: 2px;
+    box-shadow: none;
+    margin: 25px 0
+}
+
+.booking-steps-indicator .steps .steps-step .progress .progress-bar {
+    width: 0px;
+    box-shadow: none;
+    background: $color-gray-dark;
+    color: color-gray-dark
+}
+
+.booking-steps-indicator .steps .steps-step.complete>.progress>.progress-bar {
+    width: 100%;
+    background-color: color-gray-dark
+}
+
+.booking-steps-indicator .steps .steps-step.complete .steps-dot {
+    color: #FFF
+}
+
+.booking-steps-indicator .steps .steps-step.complete .steps-dot:before {
+    background-color: color-gray-dark
+}
+
+.booking-steps-indicator .steps .steps-step.complete .steps-info {
+    color: color-gray-dark
+}
+
+.van {
+    position: absolute;
+    top: -60px;
+    width:200px;
+    left:50%;
+    transform: translateX(-50%) translateY(-0%);
+    -webkit-transform: translateX(-50%) translateY(-0%);
+}
+
+.steps-cost{
+    position: absolute;
+    top: 0px;
+    left:25%;
+    transform: translateX(-50%) translateY(0%);
+    -webkit-transform: translateX(-50%) translateY(0%);
+}
+
+@media (max-width: 992px) {
+    .van {
+        top: -35px;
+        width: 150px
+    }
+    .steps-cost {
+        top:10px;
+        left:32%;
+    }
+}
+
+@media (max-width: 768px) {
+    .van {
+        top: -20px;
+        width: 100px;
+    }
+    .steps-cost {
+        left:40%;
+        top: 10px;
+    }
+}
+
+
+.booking-steps-indicator .steps .steps-step.active>.progress>.progress-bar {
+    width: 50%;
+    background-color: color-gray-dark
+}
+
+.booking-steps-indicator .steps .steps-step.active .steps-dot {
+    color: #FFF;
+    background-image: url('../img/van.png');
+}
+
+.booking-steps-indicator .steps .steps-step.active .steps-dot:before {
+    background: $color-primary
+}
+
+.booking-steps-indicator .steps .steps-step.active .steps-info {
+    color: $color-primary
+}
+
+.booking-steps-indicator .steps .steps-step:first-child>.progress {
+    left: 50%;
+    width: 50%
+}
+
+.booking-steps-indicator .steps .steps-step:first-child.active>.progress>.progress-bar {
+    width: 0%
+}
+
+.booking-steps-indicator .steps .steps-step:last-child>.progress {
+    width: 50%
+}
+
+.booking-steps-indicator .steps .steps-step:last-child.active>.progress>.progress-bar {
+    width: 100%
+}
+
+.booking-steps-indicator .steps .steps-step.disabled .progress {
+    background-color: $color-gray-dark
+}
+
+.booking-steps-indicator .steps .steps-step.disabled .steps-dot {
+    background-color: $color-gray-light;
+    box-shadow: inset 0px 0px 2px #000
+}
+
+.booking-steps-indicator .steps .steps-step.disabled .steps-dot:before {
+    background: transparent
+}
+
+.booking-steps-indicator .steps .steps-step.disabled .steps-dot:after {
+    opacity: 0
+}
+
+.booking-steps-indicator .steps .steps-step.disabled a.steps-dot {
+    pointer-events: none
+}
+
+.booking-container {
+    color: $color-primary;
+    text-align: center;
+    h1 {
+        text-align: center;
+        size: 2em;
+        text-transform: uppercase;
+    }
+    h3 {
+        text-align: center;
+    }   
+}
+
+.service {
+	width: 100%;
+	height: 320px;
+	margin: 0 0;
+	text-align: center;
+	border: 1px solid $color-primary;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+    background-color: $color-secondary;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.service .icon-holder {
+	position: relative;
+	top: 00px;
+	display: inline-block;
+	margin-bottom: 40px;
+	padding: 10px;
+	background: none;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+
+.service .heading {
+	position: relative;
+	top: 0px;
+	-webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.service .icon-holder > img.icon {
+	width: 80%;
+    -webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+
+.service:hover {
+	border-color: $color-secondary;
+}
+
+.service:hover .icon-holder {
+	top: 0px;
+}
+
+.service:hover .icon-holder img.icon{
+	width: 40px;
+}
+
+.service:hover .heading {
+	top: 30px;
+}
+
+.service .description {
+	width: 80%;
+	margin: 0 auto;
+	opacity: 0;
+	-webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	-webkit-transform: scale(0);
+	-ms-transform: scale(0);
+	transform: scale(0);
+}
+
+.service:hover .description {
+	opacity: 1;
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+    color: #000;
+}
+
+.service .service-btn {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%) translateY(0%);
+    -webkit-transform: translateX(-50%) translateY(0%);
+    border-radius: 10px;
+    padding: 20px 20px;
+    size: 1.5em;
+}
+
+.date-btn {
+    border-radius: 10px;
+    padding: 10px 20px;
+    size: 1.5em;
+}

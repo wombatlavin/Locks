@@ -1,0 +1,14 @@
+{% load i18n %}
+{% blocktrans with site_name=site.name %}
+
+Customer Name: {{ name }}
+Customer Email: {{ email }}
+Customer Comment: {{ comment }}
+
+Please log in to see the image they've sent.
+
+Sincerely,
+
+{{site_name}} Management Team
+{% endblocktrans %}
+

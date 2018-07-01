@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_class %}class="login-body"{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+
+<div class="main yellow-keys">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+				<div class="form-wrapper">
+					<form class="form-signin" method="post" action="/accounts/login/">{% csrf_token %}
+						<h2 class="form-signin-heading">Sign In Now</h2>
+						<div class="login-wrap">
+							{% if form.errors %}
+								<p>Your username and password didn't match. Please try again.</p>
+							{% endif %}
+							<input autofocus="" id="id_username" maxlength="254" name="username" type="text" required="" class="form-control" placeholder="Username">
+							<input id="id_password" name="password" type="password" required="" class="form-control" placeholder="Password">
+					
+							<button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
+							
+							<div class="registration">
+								Don't have an account yet?
+								<a class="" href="/accounts/register/">
+									Create an account
+								</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+      <!-- Modal -->
+      <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+				<form method="post" action="/password_reset/">
+					{% csrf_token %}
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Forgot Password ?</h4>
+                  </div>
+									<div class="modal-body">
+											<p>Enter your e-mail address below to reset your password.</p>
+											<input id="id_email" maxlength="254" name="email" type="email" required="" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+									</div>
+									<div class="modal-footer">
+											<button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+											<button class="btn btn-success" type="submit">Submit</button>
+									</div>	
+								</div>
+						</div>
+					</form>
+      </div>
+      <!-- modal -->
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Home Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}{% endblock %}
+
+{% block content %}
+
+
+<div class="main yellow-keys">
+
+    <div class="pt60 vh80">
+        <div class="container ">
+            <div class="row ">
+                <div class="col-xs-12 col-md-8 col-md-offset-2">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="form-wrapper">
+                        <form method="post" action="{% url 'send-photo' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h1>Send a Photo</h1>
+                            <h3>Take a photo and we'll tell you which locks to order.</h3>
+                            {{ form.as_p }}
+                            {{ imageForm.as_p }}
+                            <div id="result"></div>
+                            <button type="submit" class="btn btn-primary btn-round btn-block"> Send </button>
+                            <img id="id_logo" style="width:90%">
+                        </form>
+                    </div>
+                </div><!-- /.col-* -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.mt-150 -->
+
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+<script>
+	//script to load files into
+window.onload = function(){
+    //Check File API support
+    if(window.File && window.FileList && window.FileReader)
+    {
+        var filesInput = document.getElementById("id_image");
+        filesInput.addEventListener("change", function(event){
+            var files = event.target.files; //FileList object
+            var output = document.getElementById("result");
+            for(var i = 0; i< files.length; i++)
+            {
+                var file = files[i];
+                //Only pics
+                if(!file.type.match('image'))
+                  continue;
+                var picReader = new FileReader();
+                picReader.addEventListener("load",function(event){
+                    var picFile = event.target;
+                    var div = document.createElement("span");
+                    div.innerHTML = "<img class='image-thumbnail' src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'/>";
+                    output.insertBefore(div,null);            
+                });
+                 //Read the image
+                picReader.readAsDataURL(file);
+            }                               
+        });
+    }
+    else
+    {
+        console.log("Your browser does not support File API");
+    }
+};
+
+
+</script>
+
+{% endblock %}

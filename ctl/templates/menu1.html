@@ -1,0 +1,59 @@
+{% load static %}
+
+<header class="header">
+    <div class="header-wrapper">
+        <div class="container">
+            <div class="header-inner">
+                <div class="header-logo">
+                    <a href="/">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo">
+                        <span></span>
+                    </a>
+					
+                </div><!-- /.header-logo -->
+
+                <div class="header-content">				
+                    <div class="header-bottom">
+						<img src="{% static 'img/yale_logo.jpg' %}" alt="Yale Logo" class="manufacturer-logo">
+                        <ul class="header-nav-primary nav nav-pills ">
+							<li><a href="/" ><i class="fa fa-home fa-2x" aria-hidden="true" title="Home" data-toggle="tooltip" data-placement="bottom"></i></a></li>
+							<li >
+								<a href="#" ><i class="fa fa-users fa-2x" title="Members" data-toggle="tooltip" data-placement="top"></i></a>
+								<ul class="sub-menu">
+									{% if user.is_staff %}
+										<li><a href="/admin">Admin</a></li>
+									{% endif %}
+									{% if user.myuser.contractor %}
+										<li><a href="{% url 'my-jobs' %}">Jobs</a></li>
+										<li><a href="{% url 'month_calendar' user.myuser.calendar.slug %}">Calendar</a></li>
+										{% if not user.myuser.stripe_user_id %}<li><a href="{% url 'contractor-stripe' %}">Setup Stripe</a></li>{% endif %}
+									{% endif %}
+									{% if user.is_authenticated %}
+										<li><a href="/accounts/logout/">Logout </a></li>
+									{% else %}
+										<li><a href="/accounts/login/">Login </a> </li>
+									{% endif %}
+								</ul>
+							</li>
+						</ul>
+						
+						<!--
+						<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".header-nav-primary">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						-->
+
+                    </div><!-- /.header-bottom -->
+                </div><!-- /.header-content -->
+            </div><!-- /.header-inner -->
+        </div><!-- /.container -->
+    </div><!-- /.header-wrapper -->
+</header><!-- /.header -->
+
+
+
+{% block scripts %}
+{% endblock %}

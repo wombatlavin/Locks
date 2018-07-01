@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - My Jobs{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}{% endblock %}
+
+{% block content %}
+
+<div class="main blue-keys">
+
+    <div class="pt60 vh80">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-8 col-md-offset-2 background-secondary" style="text-align:center">
+                    <h1>My Jobs</h1>
+                    <table class="table table-condenced">
+                        <tr><th>Start</th><th>End</th><th>Work</th><th>Post Code</th><td>Details</td></tr>
+                        {% for j in jobs %}
+                            <tr>
+                                <td>{{j.event.start|date:'d/m/Y'}} {{ j.event.start|time:'H:i' }}</td>
+                                <td>{{j.event.end|date:'d/m/Y'}} {{ j.event.end|time:'H:i' }}</td>
+                                <td>{{j.item.name}}</td>
+                                <td>{{j.post_code}}</td>
+                                <td><a href="{% url 'job-detail' j.id %}">See Detail</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+{% endblock %}

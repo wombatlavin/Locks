@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static ctl %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - Home Page{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}{% endblock %}
+
+{% block content %}
+
+<div class="main">
+
+    <div class="pt60 pb60 yellow-keys">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-xs-12 col-md-4 col-md-offset-4">
+                    <div class="form-wrapper">
+                        <form method="get" action="{% url 'booking' %}">
+                            <h1>Welcome to Change the Locks</h1>
+                            <h3>The easy way to have new locks fitted</h3>
+                            {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary btn-round btn-block"> Check Prices & Book </button>
+                        </form>
+                    </div>
+                </div><!-- /.col-* -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.mt-150 -->
+    
+    <ul class="nav nav-tabs yellow-keys">
+        <li class='active'><a href='#menu0' data-toggle='tab'>Locked Out?</a></li>
+        <li><a href='#menu1' data-toggle='tab'>Why ChangeTheLocks?</a></li>
+        <li><a href="#menu2" data-toggle="tab">How It Works</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id='menu0' class="tab-pane fade in active">
+            {% include 'ctl/index/tab0.html' %}
+        </div>
+        <div id='menu1' class="tab-pane fade">
+            {% include 'ctl/index/tab1.html' %}
+        </div>
+        <div id='menu2' class="tab-pane fade">
+            {% include 'ctl/index/tab2.html' %}
+        </div>
+    </div><!-- /.tab-content -->
+    
+    <div class="block background-gray-light fullwidth pt60 pb60">
+        <div class="container">  
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="testimonial-title">
+                        <h2>What our customers think</h2>
+                    </div>
+                </div>
+                {% for review in reviews %}
+                <div class="col-sm-4">
+                    <span class="testimonial-rating">
+                        {% for star in review.stars|counter %}
+                        <i class="fa fa-star fa-2x"></i>
+                        {% endfor %} 
+                    </span>
+                    <span class="testimonial-quote"><i class="fa fa-quote-left"></i>{{ review.feedback }}<i class="fa fa-quote-right"></i></span>
+                    <span class="testimonial-sign">{{ review.customer }}</span>
+                </div><!-- /.col-sm-4 -->
+                {% endfor %}
+            </div><!-- /.row -->
+        </div>
+    </div><!-- /.block -->
+
+
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+{% endblock %}

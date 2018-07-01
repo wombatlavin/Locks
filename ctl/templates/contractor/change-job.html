@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ctl %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - My Jobs{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}{% endblock %}
+
+{% block content %}
+
+<div class="main blue-keys">
+
+    <div class="pt60 vh80">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-8 col-md-offset-2 background-secondary" style="text-align:center">
+                    <h1>Change Job</h1>
+                     {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <form action="{% url 'change-order' job.id %}" method='post'>
+                        {% csrf_token %}
+                        <table class="table table-condenced">
+                            {% for item in items %}
+                            <tr><td>{{ item.category.name }}: {{ item.name }}</td><td><input type="number" name="item_{{item.id}}" class="form-control" value="{{job|item_count:item}}"></td></tr>
+                            {% endfor %}
+                        </table>
+                        <button type="submit" class="btn btn-primary btn-block">Update Order</button>
+                        <a href="{% url 'job-detail' job.id %}" class="btn btn-primary">Return to Job</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+{% endblock %}

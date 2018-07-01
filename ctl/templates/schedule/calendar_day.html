@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load scheduletags i18n static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.css" %}" type="text/css" media="screen">
+  <script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
+  <script type="text/javascript" src="{% static "jquery-ui/jquery-ui.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "bootstrap/dist/js/bootstrap.js" %}"></script>
+  <script type="text/javascript" src="{% static "schedule.js" %}"></script>
+  <link rel="stylesheet" href="{% static "schedule.css" %}" type="text/css" media="screen">
+  <link rel="stylesheet" href="{% static "jquery-ui/themes/base/all.css" %}" type="text/css" media="screen">
+{% endblock %}
+
+{% block content %}
+<div class="main blue-keys">
+  <div class="container background-secondary">
+{% include "schedule/_dialogs.html" %}
+<div class="row row-centered">
+  <a class="btn btn-primary gradient" href="{% url "week_calendar" calendar.slug %}{% querystring_for_date period.start 3 %}">
+    {% trans "Week" %}
+  </a>
+  <a class="btn btn-primary gradient" href="{% url "month_calendar" calendar.slug %}{% querystring_for_date period.start 2 %}">
+    {% trans "Month" %}
+  </a>
+  <a class="btn btn-primary gradient" href="{% url "year_calendar" calendar.slug %}{% querystring_for_date period.start 1 %}">
+    {% trans "Year" %}
+  </a>
+</div>
+<div class="row row-centered">
+    <h1>{{ calendar.name }}</h1>
+    {% prevnext "day_calendar" calendar period "l, F d, Y" %}
+    <div class="now">
+      <a class="btn btn-primary gradient" href="{% url "day_calendar" calendar.slug %}">
+        {% trans "Today" %}
+      </a>
+    </div>
+</div>
+  <div class="row row-centered">
+    <div>
+      {% daily_table period %}
+    </div>
+</div></div></div>
+
+{% endblock %}

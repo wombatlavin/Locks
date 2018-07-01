@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ request.META.HTTP_HOST }} - My Jobs{% endblock %}
+{% block header_class %}header-transparent{% endblock %}
+
+{% block css%}
+<link href="{% static 'css/signature-pad.css' %}" rel="stylesheet" type="text/css" >
+{% endblock %}
+
+{% block content %}
+
+<div class="main blue-keys">
+
+    <div class="pt60 vh80">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-8 col-md-offset-2 background-secondary" style="text-align:center">
+                    <h1>Customer Signature</h1>
+                    <p>By signing below you are accepting the job has been completed and allowing us to take the balance of payment for this work.</p>
+                    <p>The balance is £{{job.balance|floatformat:2}}</p>
+                        <div id="signature-pad" class="m-signature-pad">
+                            <form id="signature_form" action="{% url 'customer-signature' job_id %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}{{form.as_p}}
+                                <div class="m-signature-pad--body">
+                                    <canvas></canvas>
+                                </div>
+                                <div class="m-signature-pad--footer">
+                                    <div class="description">Sign above</div>
+                                    <button type="button" class="button btn btn-primary clear" data-action="clear">Clear</button>
+                                    <button id="submit" type="submit" class="button btn btn-primary save" >Save</h>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.main -->
+
+{% endblock %}
+    
+
+
+{% block scripts %}
+<script src="{% static 'js/signature_pad.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+<script type="text/javascript">
+$('#submit').click(function(){
+    signature = canvas.toDataURL('image/png');
+    $('#id_signature').val(signature);
+    console.log('We parsed the signature');
+    $('#signature_form').submit();
+});
+</script>
+{% endblock %}

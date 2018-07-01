@@ -1,0 +1,42 @@
+{% load static %}
+
+<header class="header ">
+    <div class="header-wrapper">
+        <div class="container">
+            <div class="header-inner">
+                <div class="header-logo">
+                    <a href="/">
+                        <a href="{% url 'cancel' %}"><img src="{% static 'img/logo.png' %}" alt="Logo"></a>
+						
+                        <span></span>
+                    </a>
+                </div><!-- /.header-logo -->
+
+                <div class="header-content">				
+                    <div class="header-bottom">
+						<img src="{% static 'img/yale_logo.jpg' %}" alt="Yale Logo" class="manufacturer-logo">
+                        <ul class="header-nav-primary nav nav-pills ">
+							<li class="hidden-xs hidden-sm"><a href="{% url 'cancel' %}">Restart</a></li>
+							<li >
+								<a href="#" >Order Summary</a>
+								<ul class="sub-menu">
+									{% if slot %}<li>{{ slot|title }} {{ date|date:'M d' }}</li>{% endif %}
+									{% if request.session.postcode %}<li>Post Code: {{request.session.postcode|upper}}</li>{% endif %}
+									{% for item in request.session.qwerty %}
+									   <li>{{ item.2 }} * {{ item.1 }}: {{ item.3|floatformat:2 }}</li>
+									{% endfor %}
+								</ul>
+							</li>
+							<li>£{% if cost %}{{ cost|floatformat:2 }}{% else %}0.00{% endif %}</li>
+							
+						</ul>
+
+                    </div><!-- /.header-bottom -->
+                </div><!-- /.header-content -->
+            </div><!-- /.header-inner -->
+        </div><!-- /.container -->
+    </div><!-- /.header-wrapper -->
+</header><!-- /.header -->
+
+{% block scripts %}
+{% endblock %}
